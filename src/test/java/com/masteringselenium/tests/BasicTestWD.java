@@ -1,17 +1,25 @@
 package com.masteringselenium.tests;
 
 import com.masteringselenium.DriverFactory;
+import com.masteringselenium.page_objects.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
 public class BasicTestWD extends DriverFactory {
 
 	private final String BASE_URL = CONFIGURATION.getBaseURL();
+	private final String USER_ID = CONFIGURATION.getUserId();
+	private final String USER_PASS = CONFIGURATION.getUserPassword();
+	private final WebDriver driver = DriverFactory.getDriver();
+	private LoginPage loginPage;
 
 	@Test
 	public void aUserLoginsWithValidCredentials() throws Exception {
-		WebDriver driver = DriverFactory.getDriver();
-		driver.get(BASE_URL);
+		loginPage = new LoginPage(driver, BASE_URL);
+		loginPage.open() // instead of driver.get(BASE_URL);
+				.enterEmail(USER_ID)
+				.enterPassword(USER_PASS)
+				.clickSubmitButton();
 
 		Thread.sleep(5000);
 	}

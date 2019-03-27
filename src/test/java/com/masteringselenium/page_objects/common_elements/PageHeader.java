@@ -1,7 +1,6 @@
 package com.masteringselenium.page_objects.common_elements;
 
 import com.masteringselenium.DriverFactory;
-import com.masteringselenium.page_objects.SignInPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -23,8 +22,8 @@ public class PageHeader {
 		//return 'Contact us' page object
 	}
 
-	public SignInPage goToSignInPage() {
+	/*public LoginPage goToSignInPage() {
 		signInLink.click();
-		return new SignInPage();
-	}
+		return new LoginPage();
+	}*/
 }

@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -42,6 +41,7 @@ public class WebDriverThread {
 			MutableCapabilities capabilities = selectedDriverType.getDesiredCapabilities();
 			instantiateWebDriver(capabilities);
 		}
+		LOG.info("Driver has been obtained");
 		return webDriver;
 	}
 
@@ -49,6 +49,7 @@ public class WebDriverThread {
 		if (webDriver != null) {
 			webDriver.quit();
 			webDriver = null;
+			LOG.info("Driver has been closed");
 		}
 	}
 
@@ -73,7 +74,7 @@ public class WebDriverThread {
 
 	/**
 	 * Instantiates a WebDriver object with desired options
-	 *
+	 * <p>
 	 * If 'remoteDriver' property is set to 'true' in pom
 	 * the method will instantiate a remote WebDriver object
 	 * (platform and browser version are optional parameters)

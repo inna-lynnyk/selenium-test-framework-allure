@@ -9,10 +9,10 @@ import java.util.Properties;
 
 public class FrameworkConfiguration {
 
-	private static final Logger LOG = LogManager.getLogger(FrameworkConfiguration.class);
-
-	private static FrameworkConfiguration instance;
 	private static final String CONFIG_FILE = "config.properties";
+
+	private static final Logger LOG = LogManager.getLogger(FrameworkConfiguration.class);
+	private static FrameworkConfiguration instance;
 	private final Properties properties;
 
 	private FrameworkConfiguration() {
