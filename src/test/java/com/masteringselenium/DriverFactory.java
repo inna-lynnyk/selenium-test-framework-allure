@@ -2,8 +2,6 @@ package com.masteringselenium;
 
 import com.masteringselenium.config.FrameworkProperties;
 import com.masteringselenium.listeners.ScreenshotListener;
-import com.masteringselenium.page_objects.AboutUsPage;
-import com.masteringselenium.page_objects.IndexPage;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
@@ -32,8 +30,6 @@ public class DriverFactory {
 
 	//used in tests page objects' variables to not instantiate them in the tests
 	protected final FrameworkProperties CONFIGURATION = FrameworkProperties.getInstance();
-	protected IndexPage indexPage;
-	protected AboutUsPage aboutUsPage;
 
 	/**
 	 * Instantiates WebDriverThreads objects,

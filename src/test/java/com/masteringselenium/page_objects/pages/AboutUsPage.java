@@ -1,4 +1,4 @@
-package com.masteringselenium.page_objects;
+package com.masteringselenium.page_objects.pages;
 
 import com.masteringselenium.DriverFactory;
 import org.openqa.selenium.WebElement;

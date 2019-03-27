@@ -12,9 +12,11 @@ public abstract class AbstractPage {
 		this.driver = driver;
 	}
 
-	abstract AbstractPage open();
+	protected abstract AbstractPage open();
 
-	WebElement findElement(By selector) {
+	protected abstract AbstractPage verifyPageOpened();
+
+	protected WebElement findElement(By selector) {
 		return driver.findElement(selector);
 	}
 }

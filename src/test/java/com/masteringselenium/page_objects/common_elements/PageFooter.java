@@ -1,7 +1,7 @@
 package com.masteringselenium.page_objects.common_elements;
 
 import com.masteringselenium.DriverFactory;
-import com.masteringselenium.page_objects.AboutUsPage;
+import com.masteringselenium.page_objects.pages.AboutUsPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;

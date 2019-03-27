@@ -1,7 +1,7 @@
 package com.masteringselenium.tests;
 
 import com.masteringselenium.DriverFactory;
-import com.masteringselenium.page_objects.LoginPage;
+import com.masteringselenium.page_objects.pages.LoginPage;
 import org.testng.annotations.Test;
 
 public class BasicTestWD extends DriverFactory {
@@ -12,14 +12,26 @@ public class BasicTestWD extends DriverFactory {
 	private LoginPage loginPage;
 
 	@Test
-	public void aUserLoginsWithValidCredentials() {
+	public void loginFormIsVisbleWhenLoginPageIsOpened() {
+		loginPage = new LoginPage(DriverFactory.getDriver(), BASE_URL);
+		loginPage.open()
+				.verifyPageOpened();
+	}
+
+	@Test
+	public void aUserLoginsWithValidCredentials() throws Exception {
 		loginPage = new LoginPage(DriverFactory.getDriver(), BASE_URL);
 		loginPage.open() // instead of driver.get(BASE_URL);
 				.enterEmail(USER_ID)
 				.enterPassword(USER_PASS)
 				.clickSubmitButton();
 
-		//Thread.sleep(5000);
+		//Thread.sleep(3000);
+
+		loginPage.getIndexPage()
+				.verifyPageOpened();
+
+		Thread.sleep(5000);
 	}
 
 	/*private static final String baseURL = //"http://automationpractice.com";
