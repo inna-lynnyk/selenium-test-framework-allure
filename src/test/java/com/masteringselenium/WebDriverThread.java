@@ -1,8 +1,7 @@
 package com.masteringselenium;
 
 import com.masteringselenium.config.DriverType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +16,7 @@ import static com.masteringselenium.config.DriverType.FIREFOX;
 /**
  * Class that instantiates an actual driver
  */
+@Slf4j
 public class WebDriverThread {
 
 	private WebDriver webDriver;
@@ -28,7 +28,7 @@ public class WebDriverThread {
 	private final String systemArchitecture = System.getProperty("os.arch");
 	private final boolean useRemoteWebDriver = Boolean.getBoolean("remoteDriver");
 
-	private static final Logger LOG = LogManager.getLogger(WebDriverThread.class);
+	//private static final Logger LOG = LogManager.getLogger(WebDriverThread.class);
 
 	/**
 	 * Sets up and returns a valid WebDriver instance
@@ -41,7 +41,7 @@ public class WebDriverThread {
 			MutableCapabilities capabilities = selectedDriverType.getDesiredCapabilities();
 			instantiateWebDriver(capabilities);
 		}
-		LOG.info("Driver has been obtained");
+		log.info("Driver has been obtained");
 		return webDriver;
 	}
 
@@ -49,7 +49,7 @@ public class WebDriverThread {
 		if (webDriver != null) {
 			webDriver.quit();
 			webDriver = null;
-			LOG.info("Driver has been closed");
+			log.info("Driver has been closed");
 		}
 	}
 
@@ -65,9 +65,9 @@ public class WebDriverThread {
 		try {
 			driverType = DriverType.valueOf(browser.toUpperCase());
 		} catch (IllegalArgumentException ignored) {
-			LOG.warn("Unknown driver specified, defaulting to '" + driverType + "'...");
+			log.warn("Unknown driver specified, defaulting to '" + driverType + "'...");
 		} catch (NullPointerException ignored) {
-			LOG.warn("No driver specified, defaulting to '" + driverType + "'...");
+			log.warn("No driver specified, defaulting to '" + driverType + "'...");
 		}
 		return driverType;
 	}
@@ -82,10 +82,10 @@ public class WebDriverThread {
 	 * @param capabilities passed parameters for a browser
 	 */
 	private void instantiateWebDriver(MutableCapabilities capabilities) {
-		LOG.info("Current Browser Selection: " + selectedDriverType);
-		LOG.info("Current Operating System: " + operatingSystem);
-		LOG.info("Current Architecture: " + systemArchitecture);
-		LOG.info("Remote execution: " + useRemoteWebDriver);
+		log.info("Current Browser Selection: " + selectedDriverType);
+		log.info("Current Operating System: " + operatingSystem);
+		log.info("Current Architecture: " + systemArchitecture);
+		log.info("Remote execution: " + useRemoteWebDriver);
 
 		//use pom property <remoteDriver> to instantiate local or remote WebDriver object
 		if (useRemoteWebDriver) {
@@ -106,7 +106,7 @@ public class WebDriverThread {
 				webDriver = new RemoteWebDriver(selenoidURL, capabilities);
 
 			} catch (MalformedURLException e) {
-				LOG.error("Selenoid URL either absent or corrupted", e);
+				log.error("Selenoid URL either absent or corrupted", e);
 			}
 		} else {
 			webDriver = selectedDriverType.getWebDriverObject(capabilities);

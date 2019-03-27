@@ -1,9 +1,10 @@
 package com.masteringselenium;
 
-import com.masteringselenium.config.FrameworkConfiguration;
+import com.masteringselenium.config.FrameworkProperties;
 import com.masteringselenium.listeners.ScreenshotListener;
 import com.masteringselenium.page_objects.AboutUsPage;
 import com.masteringselenium.page_objects.IndexPage;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -19,6 +20,7 @@ import java.util.List;
  * This class holds @before and @after methods
  * This class is using WebDriverThread
  */
+@Slf4j
 @Listeners(ScreenshotListener.class)
 public class DriverFactory {
 
@@ -29,7 +31,7 @@ public class DriverFactory {
 	private static ThreadLocal<WebDriverThread> driverThread;
 
 	//used in tests page objects' variables to not instantiate them in the tests
-	protected final FrameworkConfiguration CONFIGURATION = FrameworkConfiguration.getInstance();
+	protected final FrameworkProperties CONFIGURATION = FrameworkProperties.getInstance();
 	protected IndexPage indexPage;
 	protected AboutUsPage aboutUsPage;
 
@@ -47,6 +49,7 @@ public class DriverFactory {
 	}
 
 	public static WebDriver getDriver() {
+		log.info("Requesting driver");
 		return driverThread.get().getDriver();
 	}
 

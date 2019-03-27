@@ -1,7 +1,6 @@
 package com.masteringselenium.listeners;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -15,26 +14,24 @@ import java.io.IOException;
 
 import static com.masteringselenium.DriverFactory.getDriver;
 
+@Slf4j
 public class ScreenshotListener extends TestListenerAdapter {
-
-	private static final Logger LOG = LogManager.getLogger(ScreenshotListener.class);
-
 	/**
 	 * Creates a file
 	 *
-	 * @param screenshot
+	 * @param screenshot - screenshot file
 	 * @return <code>true<code/> if file has been created
-	 * @throws IOException
+	 * @throws IOException - exception if cant create file or directory
 	 */
 	private boolean createFile(File screenshot) throws IOException {
 		boolean fileCreated = false;
 
-		if(screenshot.exists()) {
+		if (screenshot.exists()) {
 			fileCreated = true;
 		} else {
 			File parentDirectory = new File(screenshot.getParent());
 
-			if(parentDirectory.exists() || parentDirectory.mkdirs()) {
+			if (parentDirectory.exists() || parentDirectory.mkdirs()) {
 				fileCreated = screenshot.createNewFile();
 			}
 		}
@@ -44,9 +41,9 @@ public class ScreenshotListener extends TestListenerAdapter {
 	/**
 	 * Writes screenshot to a file
 	 *
-	 * @param driver
-	 * @param screenshot
-	 * @throws IOException
+	 * @param driver     - WebDriver driver
+	 * @param screenshot - screenshot file
+	 * @throws IOException - if no screenshot file obtained
 	 */
 	private void writeScreenshotToFile(WebDriver driver, File screenshot) throws IOException {
 		FileOutputStream screenshotStream = new FileOutputStream(screenshot);
@@ -56,7 +53,8 @@ public class ScreenshotListener extends TestListenerAdapter {
 
 	/**
 	 * Listener that captures a screenshot on test failure
-	 * @param failingTest
+	 *
+	 * @param failingTest - ITestResult failingTest
 	 */
 	@Override
 	public void onTestFailure(ITestResult failingTest) {
@@ -68,18 +66,18 @@ public class ScreenshotListener extends TestListenerAdapter {
 					+ ".png";
 			File screenshot = new File(screenshotAbsolutePath);
 
-			if(createFile(screenshot)) {
+			if (createFile(screenshot)) {
 				try {
 					writeScreenshotToFile(driver, screenshot);
-				} catch(ClassCastException weNeedToAugmentOurDriverObject) {
+				} catch (ClassCastException weNeedToAugmentOurDriverObject) {
 					writeScreenshotToFile(new Augmenter().augment(driver), screenshot);
 				}
-				LOG.info("Screenshot saved to " + screenshotAbsolutePath);
+				log.info("Screenshot saved to " + screenshotAbsolutePath);
 			} else {
-				LOG.error("Unable to create " + screenshotAbsolutePath);
+				log.error("Unable to create " + screenshotAbsolutePath);
 			}
-		} catch(Exception ex) {
-			LOG.error("Unable to capture screenshot...");
+		} catch (Exception ex) {
+			log.error("Unable to capture screenshot...");
 			ex.printStackTrace();
 		}
 	}

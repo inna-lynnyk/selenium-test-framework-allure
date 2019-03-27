@@ -1,21 +1,20 @@
 package com.masteringselenium.config;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class FrameworkConfiguration {
+@Slf4j
+public class FrameworkProperties {
 
 	private static final String CONFIG_FILE = "config.properties";
 
-	private static final Logger LOG = LogManager.getLogger(FrameworkConfiguration.class);
-	private static FrameworkConfiguration instance;
+	private static FrameworkProperties instance;
 	private final Properties properties;
 
-	private FrameworkConfiguration() {
+	private FrameworkProperties() {
 		properties = new Properties();
 
 		setDefaultProperties();
@@ -25,13 +24,13 @@ public class FrameworkConfiguration {
 		properties.putAll(System.getProperties());
 	}
 
-	public static FrameworkConfiguration getInstance() {
-		FrameworkConfiguration localInstance = instance;
+	public static FrameworkProperties getInstance() {
+		FrameworkProperties localInstance = instance;
 		if (localInstance == null) {
-			synchronized (FrameworkConfiguration.class) {
+			synchronized (FrameworkProperties.class) {
 				localInstance = instance;
 				if (localInstance == null) {
-					instance = localInstance = new FrameworkConfiguration();
+					instance = localInstance = new FrameworkProperties();
 				}
 			}
 		}
@@ -47,12 +46,14 @@ public class FrameworkConfiguration {
 		if (inputStream != null)
 			try {
 				properties.load(inputStream);
-				LOG.info("Properties from " + CONFIG_FILE + " are obtained");
+				log.info("Properties from " + CONFIG_FILE + " are obtained");
 			} catch (IOException | IllegalArgumentException e) {
-				LOG.error("Can't get properties from " + CONFIG_FILE, e);
+				String errorMessage = "Can't get properties from " + CONFIG_FILE;
+				log.error(errorMessage, e);
+				throw new IllegalStateException(errorMessage, e);
 			}
 		else {
-			LOG.warn("No " + CONFIG_FILE + " file found! Default properties are used");
+			log.warn("No " + CONFIG_FILE + " file found! Default properties are used");
 		}
 	}
 
