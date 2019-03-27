@@ -19,19 +19,17 @@ public class BasicTestWD extends DriverFactory {
 	}
 
 	@Test
-	public void aUserLoginsWithValidCredentials() throws Exception {
+	public void aUserLoginsWithValidCredentials() {
 		loginPage = new LoginPage(DriverFactory.getDriver(), BASE_URL);
 		loginPage.open() // instead of driver.get(BASE_URL);
 				.enterEmail(USER_ID)
 				.enterPassword(USER_PASS)
 				.clickSubmitButton();
 
-		//Thread.sleep(3000);
-
 		loginPage.getIndexPage()
 				.verifyPageOpened();
 
-		Thread.sleep(5000);
+		//Thread.sleep(5000);
 	}
 
 	/*private static final String baseURL = //"http://automationpractice.com";

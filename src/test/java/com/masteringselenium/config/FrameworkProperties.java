@@ -67,6 +67,7 @@ public class FrameworkProperties {
 		properties.setProperty("test.connection.host", "v3.test.itpmgroup.com");
 		properties.setProperty("test.user.id", "Student");
 		properties.setProperty("test.user.password", "909090");
+		properties.setProperty("test.driver.custom.timeout", "10000");
 	}
 
 	/**
@@ -90,5 +91,9 @@ public class FrameworkProperties {
 
 	public String getBaseURL() {
 		return getProtocol() + getHost();
+	}
+
+	public int getCustomTimeout() {
+		return Integer.valueOf(properties.getProperty("test.driver.custom.timeout"));
 	}
 }

@@ -1,8 +1,15 @@
 package com.masteringselenium.page_objects.pages;
 
+import com.masteringselenium.config.FrameworkProperties;
 import com.masteringselenium.page_objects.AbstractPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,7 +22,7 @@ public class IndexPage extends AbstractPage {
 //	public PageFooter footer = new PageFooter();
 
 	//Locators
-	private final By CONTENT_HEADER = By.id(".content-header h1");
+	private final By CONTENT_HEADER = By.cssSelector(".content-header h1");
 
 	/**
 	 * Might be used to return instance of this page
@@ -48,9 +55,13 @@ public class IndexPage extends AbstractPage {
 
 	@Override
 	public IndexPage verifyPageOpened() {
-		boolean isUserProfileDisplayed = findElement(CONTENT_HEADER).isDisplayed();
+		boolean userProfileDisplayed = new WebDriverWait(driver, FrameworkProperties.getInstance().getCustomTimeout())
+				.ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
+				.pollingEvery(Duration.ofMillis(300))
+				.until(ExpectedConditions.presenceOfElementLocated(CONTENT_HEADER))
+				.isDisplayed();
 
-		assertThat(isUserProfileDisplayed).isTrue();
+		assertThat(userProfileDisplayed).isTrue();
 
 		return this;
 	}
