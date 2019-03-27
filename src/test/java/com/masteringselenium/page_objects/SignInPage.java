@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SignInPage {
 
-	//TODO: consider using live templates
+	/*//Consider using live templates
 	//https://www.jetbrains.com/help/idea/using-live-templates.html
 	@FindBy(id = "email")
 	private WebElement emailAddressField;
@@ -55,5 +55,5 @@ public class SignInPage {
 		}
 
 		return alertMessage.get(lineNumber);
-	}
+	}*/
 }

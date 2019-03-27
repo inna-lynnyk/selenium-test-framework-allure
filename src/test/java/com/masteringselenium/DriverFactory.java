@@ -1,5 +1,6 @@
 package com.masteringselenium;
 
+import com.masteringselenium.config.FrameworkConfiguration;
 import com.masteringselenium.listeners.ScreenshotListener;
 import com.masteringselenium.page_objects.AboutUsPage;
 import com.masteringselenium.page_objects.IndexPage;
@@ -15,6 +16,7 @@ import java.util.List;
 
 /**
  * A factory that holds a pool of driver objects
+ * This class holds @before and @after methods
  * This class is using WebDriverThread
  */
 @Listeners(ScreenshotListener.class)
@@ -27,6 +29,7 @@ public class DriverFactory {
 	private static ThreadLocal<WebDriverThread> driverThread;
 
 	//used in tests page objects' variables to not instantiate them in the tests
+	protected final FrameworkConfiguration CONFIGURATION = FrameworkConfiguration.getInstance();
 	protected IndexPage indexPage;
 	protected AboutUsPage aboutUsPage;
 
