@@ -44,13 +44,7 @@ public class IndexPage extends AbstractPage {
 	 */
 	public IndexPage(WebDriver driver, String url) {
 		super(driver);
-		this.url = url;
-	}
-
-	@Override
-	public IndexPage open() {
-		driver.get(url);
-		return this;
+		super.url = url;
 	}
 
 	@Override
@@ -63,6 +57,12 @@ public class IndexPage extends AbstractPage {
 
 		assertThat(userProfileDisplayed).isTrue();
 
+		return this;
+	}
+
+	@Override
+	public IndexPage open() {
+		super.open();
 		return this;
 	}
 

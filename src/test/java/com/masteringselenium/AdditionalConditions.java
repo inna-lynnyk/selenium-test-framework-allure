@@ -6,20 +6,32 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
  * Class with additional/new ExpectedConditions for explicit waits.
- *
+ * <p>
  * Example of usage:
  * 1. Within a test or class
- *    WebDriverWait wait = new WebDriverWait(getDriver(), 15, 100);
- *    wait.until(AdditionalConditions.jQueryAJAXCallsHaveCompleted());
- *
+ * WebDriverWait wait = new WebDriverWait(getDriver(), 15, 100);
+ * wait.until(AdditionalConditions.jQueryAJAXCallsHaveCompleted());
+ * </p>
+ * <p>
  * 2. Within a method
- *    new WebDriverWait(getDriver(), 15, 100)
- *        .ignoring(NoSuchElementException.class) //if applicable
- *        .ignoring(StaleElementException.class) //if multiple exceptions should be ignored
- *        .until(AdditionalConditions.jQueryAJAXCallsHaveCompleted());
- *
+ * new WebDriverWait(getDriver(), 15, 100)
+ * .ignoring(NoSuchElementException.class, StaleElementException.class) //if applicable
+ * .pollingEvery(Duration.ofMillis(300))
+ * .until(AdditionalConditions.jQueryAJAXCallsHaveCompleted());
+ * </p>
  */
 public class AdditionalConditions {
+
+	public static ExpectedCondition<Boolean> javaScriptPageLoadingCompleted() {
+		return new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver driver) {
+				return (Boolean) ((JavascriptExecutor) driver)
+						.executeScript("return document.readyState").equals("complete");
+			}
+		};
+	}
 
 	/**
 	 * Find out whether jQuery has any outstanding active AJAX requests

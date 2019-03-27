@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginPage extends AbstractPage {
-	private String url;
 
 	//Consider using live templates (pfb)
 	private final By LOGIN_FORM = By.cssSelector(".login-box-body");
@@ -35,12 +34,12 @@ public class LoginPage extends AbstractPage {
 	 */
 	public LoginPage(WebDriver driver, String url) {
 		super(driver);
-		this.url = url;
+		super.url = url;
 	}
 
 	@Override
 	public LoginPage open() {
-		driver.get(url);
+		super.open();
 		return this;
 	}
 
