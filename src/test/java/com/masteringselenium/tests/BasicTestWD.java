@@ -1,7 +1,9 @@
 package com.masteringselenium.tests;
 
 import com.masteringselenium.DriverFactory;
+import com.masteringselenium.page_objects.pages.IndexPage;
 import com.masteringselenium.page_objects.pages.LoginPage;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class BasicTestWD extends DriverFactory {
@@ -10,26 +12,46 @@ public class BasicTestWD extends DriverFactory {
 	private final String USER_ID = CONFIGURATION.getUserId();
 	private final String USER_PASS = CONFIGURATION.getUserPassword();
 	private LoginPage loginPage;
+	private IndexPage indexPage;
 
-	@Test
-	public void loginFormIsVisbleWhenLoginPageIsOpened() {
+	@BeforeTest
+	private void setUp() {
 		loginPage = new LoginPage(DriverFactory.getDriver(), BASE_URL);
-		loginPage.open()
-				.verifyPageOpened();
 	}
 
 	@Test
 	public void aUserLoginsWithValidCredentials() {
-		loginPage = new LoginPage(DriverFactory.getDriver(), BASE_URL);
 		loginPage.open() // instead of driver.get(BASE_URL);
 				.enterEmail(USER_ID)
 				.enterPassword(USER_PASS)
 				.clickSubmitButton();
 
-		loginPage.getIndexPage()
-				.verifyPageOpened();
+		indexPage = loginPage.getIndexPage();
+		indexPage.verifyPageOpened();
+	}
 
-		//Thread.sleep(5000);
+	@Test
+	public void loginFormIsVisibleWhenLoginPageIsOpened() {
+		loginPage.open()
+				.verifyPageOpened();
+	}
+
+	@Test
+	public void userDirectoryIsNotOpenedIfLogedInWithInvalidEmail() {
+		loginPage.open()
+				.enterEmail("Test")
+				.enterPassword(USER_PASS)
+				.clickSubmitButton()
+				.verifyPageOpened();
+	}
+
+	@Test
+	public void userDirectoryIsNotOpenedIfLogedInWithInvalidPassword() {
+		loginPage.open()
+				.enterEmail(USER_ID)
+				.enterPassword("12345")
+				.clickSubmitButton()
+				.verifyPageOpened();
 	}
 
 	/*private static final String baseURL = //"http://automationpractice.com";
