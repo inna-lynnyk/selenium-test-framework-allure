@@ -1,22 +1,22 @@
 package com.masteringselenium.tests;
 
 import com.masteringselenium.DriverFactory;
-import com.masteringselenium.page_objects.IndexPage;
-import com.masteringselenium.page_objects.SignInPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class BasicTestWD extends DriverFactory {
 
-	private static final String baseURL = "http://automationpractice.com";
+	private final String BASE_URL = CONFIGURATION.getBaseURL();
+
+	@Test
+	public void aUserLoginsWithValidCredentials() throws Exception {
+		WebDriver driver = DriverFactory.getDriver();
+		driver.get(BASE_URL);
+
+		Thread.sleep(5000);
+	}
+
+	/*private static final String baseURL = //"http://automationpractice.com";
 
 	private void searchOnIndexPage(String query) {
 
@@ -95,18 +95,18 @@ public class BasicTestWD extends DriverFactory {
 
 		assertThat(getDriver().getTitle()).contains("Blouses");
 
-		/*//test for drag and drop
-		getDriver().get("https://html5demos.com/drag/");
+//		//test for drag and drop
+//		getDriver().get("https://html5demos.com/drag/");
 
-		WebElement boxTwo = getDriver().findElement(By.id("two"));
-		WebElement bin = getDriver().findElement(By.id("bin"));
-
-		//drag and drop (1px right, 1px down from the left corner of the element)
-		advancedActions.moveToElement(boxTwo, 1, 1)
-				.clickAndHold()
-				.moveToElement(bin)
-				.release()
-				.perform();*/
-	}
+//		WebElement boxTwo = getDriver().findElement(By.id("two"));
+//		WebElement bin = getDriver().findElement(By.id("bin"));
+//
+//		//drag and drop (1px right, 1px down from the left corner of the element)
+//		advancedActions.moveToElement(boxTwo, 1, 1)
+//				.clickAndHold()
+//				.moveToElement(bin)
+//				.release()
+//				.perform();
+	}*/
 
 }

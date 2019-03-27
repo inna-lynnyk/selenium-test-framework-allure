@@ -13,7 +13,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static com.masteringselenium.config.DriverType.CHROME;
 import static com.masteringselenium.config.DriverType.FIREFOX;
 
 /**
@@ -46,7 +45,7 @@ public class WebDriverThread {
 		return webDriver;
 	}
 
-	public void quitDriver() {
+	void quitDriver() {
 		if (webDriver != null) {
 			webDriver.quit();
 			webDriver = null;
@@ -54,7 +53,7 @@ public class WebDriverThread {
 	}
 
 	/**
-	 * Reads and holds the type of browser specified, otherwise,
+	 * Reads and holds the type of browser specified (within pom.xml), otherwise,
 	 * returns default driverType
 	 *
 	 * @return driverType
@@ -80,7 +79,6 @@ public class WebDriverThread {
 	 * (platform and browser version are optional parameters)
 	 *
 	 * @param capabilities passed parameters for a browser
-	 * @throws MalformedURLException if no or invalid selenoid URL provided
 	 */
 	private void instantiateWebDriver(MutableCapabilities capabilities) {
 		LOG.info("Current Browser Selection: " + selectedDriverType);
@@ -107,8 +105,7 @@ public class WebDriverThread {
 				webDriver = new RemoteWebDriver(selenoidURL, capabilities);
 
 			} catch (MalformedURLException e) {
-				LOG.error("Selenoid URL either absent or corrupted");
-				e.printStackTrace();
+				LOG.error("Selenoid URL either absent or corrupted", e);
 			}
 		} else {
 			webDriver = selectedDriverType.getWebDriverObject(capabilities);

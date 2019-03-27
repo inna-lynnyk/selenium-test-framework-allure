@@ -23,7 +23,9 @@ public enum DriverType implements DriverSetup {
 	FIREFOX {
 		@Override
 		public MutableCapabilities getDesiredCapabilities() {
-			return new FirefoxOptions();
+			FirefoxOptions firefoxOptions = new FirefoxOptions();
+			firefoxOptions.setCapability("marionette", true);
+			return firefoxOptions;
 		}
 
 		@Override
@@ -36,8 +38,8 @@ public enum DriverType implements DriverSetup {
 	CHROME {
 		@Override
 		public MutableCapabilities getDesiredCapabilities() {
-			MutableCapabilities capabilities = new ChromeOptions();
-			capabilities.setCapability("chrome.switches",
+			ChromeOptions chromeOptions = new ChromeOptions();
+			chromeOptions.setCapability("chrome.switches",
 					Arrays.asList("--no-default-browser-check",
 							"--disable-extensions",
 							"--disable-notifications",
@@ -49,9 +51,9 @@ public enum DriverType implements DriverSetup {
 			HashMap<String, String> chromePreferences = new HashMap<>();
 			chromePreferences.put("profile.password_manager_enabled", "false");
 
-			capabilities.setCapability("chrome.prefs", chromePreferences);
+			chromeOptions.setCapability("chrome.prefs", chromePreferences);
 
-			return capabilities;
+			return chromeOptions;
 		}
 
 		@Override
