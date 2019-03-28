@@ -13,14 +13,13 @@ import java.time.Duration;
 @Slf4j
 public abstract class AbstractPage {
 	protected WebDriver driver;
-	protected WebDriverWait wait;
 	protected String url;
-	protected final int CUSTOM_WAIT_TIMEOUT = FrameworkProperties.getInstance().getCustomTimeout();
+	private WebDriverWait wait;
 
 	public AbstractPage(WebDriver driver) {
 		this.driver = driver;
 
-		CustomWait.setWait(this.driver, CUSTOM_WAIT_TIMEOUT);
+		CustomWait.setWait(this.driver, FrameworkProperties.getInstance().getCustomTimeout());
 		this.wait = CustomWait.getWait();
 	}
 
