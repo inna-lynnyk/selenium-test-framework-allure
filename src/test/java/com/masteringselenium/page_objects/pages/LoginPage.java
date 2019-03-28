@@ -4,8 +4,6 @@ import com.masteringselenium.page_objects.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class LoginPage extends AbstractPage {
 
 	//Consider using live templates (pfb)
@@ -44,12 +42,8 @@ public class LoginPage extends AbstractPage {
 	}
 
 	@Override
-	public LoginPage verifyPageOpened() {
-		boolean isLoginFormDisplayed = findElement(LOGIN_FORM).isDisplayed();
-
-		assertThat(isLoginFormDisplayed).isTrue();
-
-		return this;
+	protected By getUniqueElement() {
+		return SUBMIT_BUTTON;
 	}
 
 	public LoginPage enterEmail(String email) {

@@ -1,13 +1,14 @@
 package com.masteringselenium.page_objects;
 
-import com.masteringselenium.utils.AdditionalConditions;
 import com.masteringselenium.config.FrameworkProperties;
+import com.masteringselenium.utils.AdditionalConditions;
 import com.masteringselenium.utils.CustomWait;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 @Slf4j
 public abstract class AbstractPage {
@@ -23,12 +24,38 @@ public abstract class AbstractPage {
 		this.wait = CustomWait.getWait();
 	}
 
-	protected abstract AbstractPage verifyPageOpened();
+	/**
+	 * Should be overriden by descendants actual PageObjects
+	 * and return locator of the unique element on the page
+	 *
+	 * @return By locator - locator of the unique element
+	 */
+	protected abstract By getUniqueElement();
+
+	/**
+	 * Waits for the unique page element to get present on the page
+	 */
+	private void verifyPageOpened() {
+		wait.ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
+				.pollingEvery(Duration.ofMillis(300))
+				.until(ExpectedConditions.presenceOfElementLocated(getUniqueElement()));
+	}
+
+	/**
+	 * Wait for the page finish loading
+	 */
+	private void verifyPageLoadingCompleted() {
+		wait.until(AdditionalConditions.javaScriptPageLoadingCompleted());
+	}
 
 	public AbstractPage open() {
-		log.info("Openning page at: {}", url);
+		log.info("Openning a page at: {}", url);
+
 		driver.get(url);
-		wait.until(AdditionalConditions.javaScriptPageLoadingCompleted());
+		verifyPageLoadingCompleted();
+		verifyPageOpened();
+
+		log.info("The page has been loaded and opened");
 		return this;
 	}
 

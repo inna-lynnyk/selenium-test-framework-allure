@@ -1,17 +1,8 @@
 package com.masteringselenium.page_objects.pages;
 
-import com.masteringselenium.config.FrameworkProperties;
 import com.masteringselenium.page_objects.AbstractPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class IndexPage extends AbstractPage {
 
@@ -48,16 +39,8 @@ public class IndexPage extends AbstractPage {
 	}
 
 	@Override
-	public IndexPage verifyPageOpened() {
-		boolean userProfileDisplayed = new WebDriverWait(driver, FrameworkProperties.getInstance().getCustomTimeout())
-				.ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
-				.pollingEvery(Duration.ofMillis(300))
-				.until(ExpectedConditions.presenceOfElementLocated(CONTENT_HEADER))
-				.isDisplayed();
-
-		assertThat(userProfileDisplayed).isTrue();
-
-		return this;
+	protected By getUniqueElement() {
+		return CONTENT_HEADER;
 	}
 
 	@Override

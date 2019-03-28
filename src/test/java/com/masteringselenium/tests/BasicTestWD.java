@@ -27,13 +27,11 @@ public class BasicTestWD extends DriverFactory {
 				.clickSubmitButton();
 
 		indexPage = loginPage.getIndexPage();
-		indexPage.verifyPageOpened();
 	}
 
 	@Test
 	public void loginFormIsVisibleWhenLoginPageIsOpened() {
-		loginPage.open()
-				.verifyPageOpened();
+		loginPage.open();
 	}
 
 	@Test
@@ -41,8 +39,7 @@ public class BasicTestWD extends DriverFactory {
 		loginPage.open()
 				.enterEmail("Test")
 				.enterPassword(USER_PASS)
-				.clickSubmitButton()
-				.verifyPageOpened();
+				.clickSubmitButton();
 	}
 
 	@Test
@@ -50,8 +47,7 @@ public class BasicTestWD extends DriverFactory {
 		loginPage.open()
 				.enterEmail(USER_ID)
 				.enterPassword("12345")
-				.clickSubmitButton()
-				.verifyPageOpened();
+				.clickSubmitButton();
 	}
 
 	/*private static final String baseURL = //"http://automationpractice.com";
