@@ -43,7 +43,7 @@ public class LoginPage extends AbstractPage {
 
 	@Override
 	protected By getUniqueElement() {
-		return SUBMIT_BUTTON;
+		return LOGIN_FORM;
 	}
 
 	public LoginPage enterEmail(String email) {

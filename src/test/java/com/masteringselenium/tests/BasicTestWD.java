@@ -27,6 +27,7 @@ public class BasicTestWD extends DriverFactory {
 				.clickSubmitButton();
 
 		indexPage = loginPage.getIndexPage();
+		indexPage.open(); //throws exception
 	}
 
 	@Test

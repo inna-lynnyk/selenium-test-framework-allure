@@ -2,14 +2,14 @@ package com.masteringselenium.utils;
 
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.FluentWait;
 
 public class CustomWait {
 
 	@Getter
-	private static WebDriverWait wait;
+	private static FluentWait<WebDriver> wait;
 
-	public static void setWait(WebDriver driver, int seconds) {
-		CustomWait.wait = new WebDriverWait(driver, seconds);
+	public static void setFluentWait(WebDriver driver) {
+		CustomWait.wait = new FluentWait<>(driver);
 	}
 }
