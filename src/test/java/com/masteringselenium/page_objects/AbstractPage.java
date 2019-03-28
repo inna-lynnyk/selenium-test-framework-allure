@@ -1,6 +1,6 @@
 package com.masteringselenium.page_objects;
 
-import com.masteringselenium.AdditionalConditions;
+import com.masteringselenium.utils.AdditionalConditions;
 import com.masteringselenium.config.FrameworkProperties;
 import com.masteringselenium.utils.CustomWait;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +23,8 @@ public abstract class AbstractPage {
 		this.wait = CustomWait.getWait();
 	}
 
+	protected abstract AbstractPage verifyPageOpened();
+
 	public AbstractPage open() {
 		log.info("Openning page at: {}", url);
 		driver.get(url);
@@ -30,8 +32,7 @@ public abstract class AbstractPage {
 		return this;
 	}
 
-	protected abstract AbstractPage verifyPageOpened();
-
+	//wrapper for driver.findElement() to be used in descendants
 	protected WebElement findElement(By selector) {
 		return driver.findElement(selector);
 	}

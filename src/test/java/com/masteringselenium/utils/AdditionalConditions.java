@@ -1,5 +1,6 @@
-package com.masteringselenium;
+package com.masteringselenium.utils;
 
+import lombok.experimental.UtilityClass;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -20,6 +21,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
  * .until(AdditionalConditions.jQueryAJAXCallsHaveCompleted());
  * </p>
  */
+@UtilityClass
 public class AdditionalConditions {
 
 	public static ExpectedCondition<Boolean> javaScriptPageLoadingCompleted() {
