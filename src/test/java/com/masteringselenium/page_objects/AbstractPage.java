@@ -20,11 +20,10 @@ public abstract class AbstractPage {
 
 	public AbstractPage(WebDriver driver) {
 		this.driver = driver;
+		this.page = getClass().getSimpleName();
 
 		CustomWait.setFluentWait(this.driver);
 		this.wait = CustomWait.getWait();
-
-		this.page = getClass().getSimpleName();
 	}
 
 	/**
@@ -63,7 +62,7 @@ public abstract class AbstractPage {
 		if (Objects.nonNull(uniqueElement)) {
 			log.info("The unique {} element '{}' obtained", page, uniqueElement);
 		} else {
-			throw new NullPointerException("The unique element for " + page + "has not been defined in descendant class");
+			throw new NullPointerException("The unique element for " + page + " has not been defined");
 		}
 	}
 
@@ -75,8 +74,8 @@ public abstract class AbstractPage {
 		checkUniqueElementNonNull();
 
 		wait.withTimeout(Duration.ofSeconds(FrameworkProperties.getInstance().getCustomTimeout()))
-				.ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
 				.pollingEvery(Duration.ofMillis(300))
+				.ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
 				.withMessage("The unique element: {" + getUniqueElement() + "} not found")
 				.until(ExpectedConditions.presenceOfElementLocated(getUniqueElement()));
 

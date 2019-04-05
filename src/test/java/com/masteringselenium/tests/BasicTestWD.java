@@ -38,17 +38,13 @@ public class BasicTestWD extends DriverFactory {
 	@Test
 	public void userDirectoryIsNotOpenedIfLogedInWithInvalidEmail() {
 		loginPage.open()
-				.enterEmail("Test")
-				.enterPassword(USER_PASS)
-				.clickSubmitButton();
+				.login("Test", USER_PASS);
 	}
 
 	@Test
 	public void userDirectoryIsNotOpenedIfLogedInWithInvalidPassword() {
 		loginPage.open()
-				.enterEmail(USER_ID)
-				.enterPassword("12345")
-				.clickSubmitButton();
+				.login(USER_ID, "12345");
 	}
 
 	/*private static final String baseURL = //"http://automationpractice.com";

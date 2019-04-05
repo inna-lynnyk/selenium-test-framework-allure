@@ -61,6 +61,13 @@ public class LoginPage extends AbstractPage {
 		return this;
 	}
 
+	public LoginPage login(String email, String password) {
+		this.enterEmail(email)
+				.enterPassword(password)
+				.clickSubmitButton();
+		return this;
+	}
+
 	public IndexPage getIndexPage() {
 		return new IndexPage(driver);
 	}
