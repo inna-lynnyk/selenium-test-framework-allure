@@ -15,6 +15,7 @@ import java.util.Objects;
 public abstract class AbstractPage {
 	protected WebDriver driver;
 	protected String url;
+	private String page;
 	private FluentWait<WebDriver> wait;
 
 	public AbstractPage(WebDriver driver) {
@@ -22,6 +23,8 @@ public abstract class AbstractPage {
 
 		CustomWait.setFluentWait(this.driver);
 		this.wait = CustomWait.getWait();
+
+		this.page = getClass().getSimpleName();
 	}
 
 	/**
@@ -33,6 +36,24 @@ public abstract class AbstractPage {
 	protected abstract By getUniqueElement();
 
 	/**
+	 * Opens the page with verifications of url, page loading completeness and unique element's presence
+	 *
+	 * @return this - the object of the (descendant) page being opened
+	 */
+	public AbstractPage open() {
+		log.info("Opening {}", page);
+		openPageByURL(url);
+		verifyPageLoadingCompleted();
+		verifyPageOpened();
+		return this;
+	}
+
+	//wrapper for driver.findElement() to be used in descendants
+	protected WebElement findElement(By selector) {
+		return driver.findElement(selector);
+	}
+
+	/**
 	 * Checks whether getUniqueElement() returns non null
 	 * Throws @NullPointerException if unique element is not defined in descendant class
 	 */
@@ -40,9 +61,9 @@ public abstract class AbstractPage {
 		By uniqueElement = getUniqueElement();
 
 		if (Objects.nonNull(uniqueElement)) {
-			log.info("The unique {} element '{}' obtained", getClass().getSimpleName(), uniqueElement);
+			log.info("The unique {} element '{}' obtained", page, uniqueElement);
 		} else {
-			throw new NullPointerException("The unique element for " + getClass().getSimpleName() + "has not been defined in descendant class");
+			throw new NullPointerException("The unique element for " + page + "has not been defined in descendant class");
 		}
 	}
 
@@ -59,8 +80,8 @@ public abstract class AbstractPage {
 				.withMessage("The unique element: {" + getUniqueElement() + "} not found")
 				.until(ExpectedConditions.presenceOfElementLocated(getUniqueElement()));
 
-		log.info("The unique {} element '{}' has been found", getClass().getSimpleName(), getUniqueElement());
-		log.info("The {} has been opened", getClass().getSimpleName());
+		log.info("The unique {} element '{}' has been found", page, getUniqueElement());
+		log.info("The {} has been opened", page);
 	}
 
 	/**
@@ -68,7 +89,7 @@ public abstract class AbstractPage {
 	 */
 	private void verifyPageLoadingCompleted() {
 		wait.until(AdditionalConditions.javaScriptPageLoadingCompleted());
-		log.info("The {} loading completed", getClass().getSimpleName());
+		log.info("The {} loading completed", page);
 	}
 
 	/**
@@ -79,9 +100,9 @@ public abstract class AbstractPage {
 	 */
 	private void checkURLnonNull(String URL) {
 		if (Objects.nonNull(url)) {
-			log.info("The URL for {} obtained: {}", getClass().getSimpleName(), URL);
+			log.info("The URL for {} obtained: {}", page, URL);
 		} else {
-			throw new NullPointerException("The URL for " + getClass().getSimpleName() + " has not been defined");
+			throw new NullPointerException("The URL for " + page + " has not been defined");
 		}
 	}
 
@@ -94,25 +115,7 @@ public abstract class AbstractPage {
 	private void openPageByURL(String URL) {
 		checkURLnonNull(URL);
 
-		log.info("Opening {} at: {}", getClass().getSimpleName(), URL);
+		log.info("Opening {} at: {}", page, URL);
 		driver.get(URL);
-	}
-
-	/**
-	 * Opens the page with verifications of url, page loading completeness and unique element's presence
-	 *
-	 * @return this - the object of the (descendant) page being opened
-	 */
-	public AbstractPage open() {
-		log.info("Opening {}", getClass().getSimpleName());
-		openPageByURL(url);
-		verifyPageLoadingCompleted();
-		verifyPageOpened();
-		return this;
-	}
-
-	//wrapper for driver.findElement() to be used in descendants
-	protected WebElement findElement(By selector) {
-		return driver.findElement(selector);
 	}
 }
