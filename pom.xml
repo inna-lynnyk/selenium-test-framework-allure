@@ -44,7 +44,7 @@
         <webdrivermanager.version>2.2.1</webdrivermanager.version>
 
         <!--Configurable variables-->
-        <browser></browser>
+        <browser>firefox</browser>
         <browser.version></browser.version>
         <platform></platform>
         <remote>false</remote>
