@@ -43,6 +43,10 @@
         <!--W-->
         <webdrivermanager.version>2.2.1</webdrivermanager.version>
 
+        <!--TESTS configuration variables-->
+        <suite.name>defaultSuite</suite.name>
+        <default.suiteXmlFile>src/test/resources/${suite.name}.xml</default.suiteXmlFile>
+
         <!--Configurable variables-->
         <browser>firefox</browser>
         <browser.version></browser.version>
@@ -154,6 +158,9 @@
                             <parallel>methods</parallel>
                             <!--Define number of threads: <mvn clean install -Dthreads=2>-->
                             <threadCount>${threads}</threadCount>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>${default.suiteXmlFile}</suiteXmlFile>
+                            </suiteXmlFiles>
                             <systemPropertyVariables>
                                 <screenshotDirectory>${project.build.directory}/screenshot</screenshotDirectory>
                                 <browser>${browser}</browser>
