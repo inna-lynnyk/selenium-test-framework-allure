@@ -100,6 +100,7 @@ public class WebDriverThread {
 				}
 
 				if (desiredBrowserVersion != null && !desiredBrowserVersion.isEmpty()) {
+					desiredCapabilities.setBrowserName(browser);
 					desiredCapabilities.setVersion(desiredBrowserVersion);
 					capabilities.merge(desiredCapabilities);
 				}
