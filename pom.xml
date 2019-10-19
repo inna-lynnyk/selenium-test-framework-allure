@@ -53,7 +53,7 @@
         <platform></platform>
         <remote>false</remote>
         <selenoidURL>http://localhost:4444/wd/hub</selenoidURL>
-        <threads>0</threads>
+        <threads>1</threads>
     </properties>
 
     <profiles>
