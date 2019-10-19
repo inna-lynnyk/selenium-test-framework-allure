@@ -51,9 +51,9 @@
         <browser>firefox</browser>
         <browser.version></browser.version>
         <platform></platform>
-        <remote>false</remote>
+        <remote>true</remote>
         <selenoidURL>http://localhost:4444/wd/hub</selenoidURL>
-        <threads>1</threads>
+        <threads>0</threads>
     </properties>
 
     <profiles>
