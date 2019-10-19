@@ -123,26 +123,26 @@
                         <version>${maven.compiler.plugin.version}</version>
                         <configuration>
                             <!--Turns on Error Prone (testing at compilation)-->
-                            <compilerId>javac-with-errorprone</compilerId>
-                            <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                            <!--<compilerId>javac-with-errorprone</compilerId>
+                            <forceJavacCompilerUse>true</forceJavacCompilerUse>-->
                             <source>${maven.compiler.plugin}</source>
                             <target>${maven.compiler.plugin}</target>
                             <showWarnings>true</showWarnings>
                         </configuration>
-                        <dependencies>
+                        <!--<dependencies>
                             <dependency>
                                 <groupId>org.codehaus.plexus</groupId>
                                 <artifactId>plexus-compiler-javac-errorprone</artifactId>
                                 <version>${error.prone.javac.version}</version>
                             </dependency>
-                            <!-- override plexus-compiler-javac-errorprone's dependency on
-                                 Error Prone with the latest version -->
+                            &lt;!&ndash; override plexus-compiler-javac-errorprone's dependency on
+                                 Error Prone with the latest version &ndash;&gt;
                             <dependency>
                                 <groupId>com.google.errorprone</groupId>
                                 <artifactId>error_prone_core</artifactId>
                                 <version>${error.prone.core.version}</version>
                             </dependency>
-                        </dependencies>
+                        </dependencies>-->
                     </plugin>
 
                     <!--Runs integration/system tests safely (no abortion) and parallels them-->
