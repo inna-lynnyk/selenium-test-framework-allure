@@ -37,6 +37,7 @@ public class DriverFactory {
 	 */
 	@BeforeSuite
 	public static void instantiateDriverObject() {
+		log.info("Instantiating Driver objects");
 		driverThread = ThreadLocal.withInitial(() -> {
 			WebDriverThread webDriverThread = new WebDriverThread();
 			webDriverThreadPool.add(webDriverThread);

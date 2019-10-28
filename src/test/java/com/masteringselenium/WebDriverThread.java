@@ -89,11 +89,13 @@ public class WebDriverThread {
 
 		//use pom property <remoteDriver> to instantiate local or remote WebDriver object
 		if (useRemoteWebDriver) {
+			log.info("Setting up remote driver");
 			try {
 				URL selenoidURL = new URL(System.getProperty("selenoidURL"));
 				String desiredBrowserVersion = System.getProperty("desiredBrowserVersion");
 				String desiredPlatform = System.getProperty("desiredPlatform");
 				DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+				log.info("Remote driver URL is obtained: {}", selenoidURL);
 
 				if (desiredPlatform != null && !desiredPlatform.isEmpty()) {
 					capabilities.setCapability("platform", Platform.valueOf(desiredPlatform.toUpperCase()));
@@ -105,7 +107,7 @@ public class WebDriverThread {
 					capabilities.merge(desiredCapabilities);
 				}
 				webDriver = new RemoteWebDriver(selenoidURL, capabilities);
-
+				log.info("Remote driver has been instantiated");
 			} catch (MalformedURLException e) {
 				log.error("Selenoid URL either absent or corrupted", e);
 			}
