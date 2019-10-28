@@ -49,7 +49,7 @@
 
         <!--Configurable variables-->
         <browser>chrome</browser>
-        <browser.version></browser.version>
+        <browser.version>78</browser.version>
         <platform></platform>
         <remote>true</remote>
         <selenoidURL>http://localhost:4444/wd/hub</selenoidURL>
