@@ -80,7 +80,6 @@
 					<groupId>io.qameta.allure</groupId>
 					<artifactId>allure-testng</artifactId>
 					<version>${allure-testng.version}</version>
-					<scope>test</scope>
 				</dependency>
 				<!-- Fluent assertions library -->
 				<dependency>
@@ -164,22 +163,15 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>${maven.surefire.plugin}</version>
-						<dependencies>
-							<dependency>
-								<groupId>org.aspectj</groupId>
-								<artifactId>aspectjweaver</artifactId>
-								<version>1.9.1</version>
-							</dependency>
-						</dependencies>
 						<configuration>
+							<!--<parallel>methods</parallel>-->
+							<!--Define number of threads: <mvn clean install -Dthreads=2>-->
 							<testFailureIgnore>false</testFailureIgnore>
+							<threadCount>${threads}</threadCount>
+							<forkCount>${forks}</forkCount>
 							<argLine>
 								-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
 							</argLine>
-							<!--<parallel>methods</parallel>-->
-							<!--Define number of threads: <mvn clean install -Dthreads=2>-->
-							<threadCount>${threads}</threadCount>
-							<forkCount>${forks}</forkCount>
 							<suiteXmlFiles>
 								<suiteXmlFile>${default.suiteXmlFile}</suiteXmlFile>
 							</suiteXmlFiles>
@@ -196,6 +188,13 @@
 								<include>**/*WD.java</include>
 							</includes>
 						</configuration>
+						<dependencies>
+							<dependency>
+								<groupId>org.aspectj</groupId>
+								<artifactId>aspectjweaver</artifactId>
+								<version>1.9.1</version>
+							</dependency>
+						</dependencies>
 					</plugin>
 					<plugin>
 						<groupId>io.qameta.allure</groupId>
