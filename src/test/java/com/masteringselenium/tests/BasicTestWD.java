@@ -1,10 +1,17 @@
 package com.masteringselenium.tests;
 
+import static io.qameta.allure.SeverityLevel.BLOCKER;
+
 import com.masteringselenium.DriverFactory;
 import com.masteringselenium.page_objects.pages.IndexPage;
 import com.masteringselenium.page_objects.pages.LoginPage;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 
 public class BasicTestWD extends DriverFactory {
 
@@ -30,7 +37,15 @@ public class BasicTestWD extends DriverFactory {
 		indexPage.open(); //throws exception/
 	}*/
 
-	@Test
+	@Test(description = "Opening Login page")
+	@Severity(BLOCKER)
+	@Description("- Page description is displayed at the top,\n"
+			+ "- Verbatim 'Show balance for specific date' is displayed before Datepicker,\n"
+			+ "- Datepicker input and button are displayed,\n"
+			+ "- Show and Clear buttons are displayed and disabled,\n"
+			+ "- Table header and body are visible,\n"
+			+ "- Table header and body cells are not empty.")
+	@Story("LOG-5")
 	public void loginFormIsVisibleWhenLoginPageIsOpened() {
 		loginPage.open();
 	}
@@ -41,7 +56,15 @@ public class BasicTestWD extends DriverFactory {
 				.login("Test", USER_PASS);
 	}
 
-	@Test
+	@Test(description = "Opening Login page")
+	@Severity(BLOCKER)
+	@Description("- Page description is displayed at the top,\n"
+			+ "- Verbatim 'Show balance for specific date' is displayed before Datepicker,\n"
+			+ "- Datepicker input and button are displayed,\n"
+			+ "- Show and Clear buttons are displayed and disabled,\n"
+			+ "- Table header and body are visible,\n"
+			+ "- Table header and body cells are not empty.")
+	@Story("LOG-5")
 	public void userDirectoryIsNotOpenedIfLogedInWithInvalidPassword() {
 		loginPage.open()
 				.login(USER_ID, "12345");
