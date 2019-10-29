@@ -19,7 +19,7 @@ import java.util.List;
  * This class is using WebDriverThread
  */
 @Slf4j
-@Listeners(ScreenshotListener.class)
+@Listeners({ScreenshotListener.class, AllureListener.class})
 public class DriverFactory {
 
 	// A list to store all instances of WebDriverThread
