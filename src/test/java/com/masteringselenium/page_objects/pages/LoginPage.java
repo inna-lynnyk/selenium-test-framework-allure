@@ -4,6 +4,8 @@ import com.masteringselenium.page_objects.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import io.qameta.allure.Step;
+
 public class LoginPage extends AbstractPage {
 
 	//Consider using live templates (pfb)
@@ -46,11 +48,13 @@ public class LoginPage extends AbstractPage {
 		return LOGIN_FORM;
 	}
 
+	@Step("Type email: {0}")
 	public LoginPage enterEmail(String email) {
 		findElement(EMAIL_FIELD).sendKeys(email);
 		return this;
 	}
 
+	@Step("Type password: {0}")
 	public LoginPage enterPassword(String password) {
 		findElement(PASSWORD_FIELD).sendKeys(password);
 		return this;
@@ -61,6 +65,7 @@ public class LoginPage extends AbstractPage {
 		return this;
 	}
 
+	@Step("Loggin in")
 	public LoginPage login(String email, String password) {
 		this.enterEmail(email)
 				.enterPassword(password)
