@@ -1,214 +1,235 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.chudilka1</groupId>
-	<artifactId>selenium-test-framework</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<name>selenium-test-framework</name>
-	<url>http://maven.apache.org</url>
+    <groupId>com.chudilka1</groupId>
+    <artifactId>selenium-test-framework</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>Selenium Test Framework</name>
+    <url>http://maven.apache.org</url>
 
-	<!--To force dependencies uploading run <mvn clean install -U>-->
-	<properties>
-		<!--A-->
-		<apache.commons.version>3.7</apache.commons.version>
-		<allure-testng.version>2.13.0</allure-testng.version>
-		<aspectj.version>1.9.3</aspectj.version>
-		<assertj.version>3.10.0</assertj.version>
+    <!--To force dependencies uploading run <mvn clean install -U>-->
+    <properties>
+        <!--A-->
+        <apache.commons.version>3.7</apache.commons.version>
+        <assertj.version>3.10.0</assertj.version>
+        <aspectj.version>1.9.1</aspectj.version>
+        <allure-testng.version>2.13.0</allure-testng.version>
 
-		<!--E-->
-		<error.prone.javac.version>2.8.3</error.prone.javac.version>
-		<error.prone.core.version>2.3.1</error.prone.core.version>
+        <!--E-->
+        <error.prone.javac.version>2.8.3</error.prone.javac.version>
+        <error.prone.core.version>2.3.1</error.prone.core.version>
 
-		<!--L-->
-		<lombok.version>1.18.6</lombok.version>
+        <!--L-->
+        <lombok.version>1.18.6</lombok.version>
 
-		<!--M-->
-		<maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.plugin>1.8</maven.compiler.plugin>
-		<maven.surefire.plugin>3.0.0-M3</maven.surefire.plugin>
+        <!--M-->
+        <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
+        <maven.compiler.plugin>1.8</maven.compiler.plugin>
+        <maven.surefire.plugin>3.0.0-M3</maven.surefire.plugin>
 
-		<!--P-->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!--P-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<!--S-->
-		<selenium.version>3.11.0</selenium.version>
+        <!--S-->
+        <selenium.version>3.11.0</selenium.version>
+        <slf4j-simple.version>2.12.1</slf4j-simple.version>
 
-		<!--T-->
-		<testng.version>6.14.3</testng.version>
+        <!--T-->
+        <testng.version>6.14.3</testng.version>
 
-		<!--W-->
-		<webdrivermanager.version>2.2.1</webdrivermanager.version>
+        <!--W-->
+        <webdrivermanager.version>2.2.1</webdrivermanager.version>
 
-		<!--TESTS configuration variables-->
-		<suite.name>defaultSuite</suite.name>
-		<default.suiteXmlFile>src/test/resources/${suite.name}.xml</default.suiteXmlFile>
+        <!--TESTS configuration variables-->
+        <suite.name>defaultSuite</suite.name>
+        <default.suiteXmlFile>src/test/resources/${suite.name}.xml</default.suiteXmlFile>
 
-		<!--Configurable variables-->
-		<browser>firefox</browser>
-		<browser.version></browser.version>
-		<platform></platform>
-		<remote></remote>
-		<selenoidURL>http://localhost:4444/wd/hub</selenoidURL>
-		<threads>1</threads>
-		<forks>0</forks>
-	</properties>
+        <!--Configurable variables-->
+        <browser>firefox</browser>
+        <browser.version></browser.version>
+        <platform></platform>
+        <remote>false</remote>
+        <selenoidURL>http://localhost:4444/wd/hub</selenoidURL>
+        <threads>1</threads>
+        <forks>0</forks>
+    </properties>
 
-	<profiles>
-		<!--Profiles are to run a <profile> in isolation with -P key: i.e. <mvn clean install -Pselenium>-->
-		<profile>
-			<id>selenium</id>
-			<activation>
-				<!--If 'true' the profile remains active if no profiles are specified in the command line-->
-				<activeByDefault>true</activeByDefault>
-			</activation>
+    <profiles>
+        <!--Profiles are to run a <profile> in isolation with -P key: i.e. <mvn clean install -Pselenium>-->
+        <profile>
+            <id>selenium</id>
+            <activation>
+                <!--If 'true' the profile remains active if no profiles are specified in the command line-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
 
-			<dependencies>
-				<!--A-->
-				<dependency>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>commons-lang3</artifactId>
-					<version>${apache.commons.version}</version>
-				</dependency>
-				<!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-testng -->
-				<dependency>
-					<groupId>io.qameta.allure</groupId>
-					<artifactId>allure-testng</artifactId>
-					<version>${allure-testng.version}</version>
-				</dependency>
-				<!-- Fluent assertions library -->
-				<dependency>
-					<groupId>org.assertj</groupId>
-					<artifactId>assertj-core</artifactId>
-					<version>${assertj.version}</version>
-					<scope>test</scope>
-				</dependency>
+            <dependencies>
+                <!--A-->
+                <dependency>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-lang3</artifactId>
+                    <version>${apache.commons.version}</version>
+                </dependency>
+                <!-- Fluent assertions library -->
+                <dependency>
+                    <groupId>org.assertj</groupId>
+                    <artifactId>assertj-core</artifactId>
+                    <version>${assertj.version}</version>
+                </dependency>
+                <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-testng -->
+                <dependency>
+                    <groupId>io.qameta.allure</groupId>
+                    <artifactId>allure-testng</artifactId>
+                    <version>${allure-testng.version}</version>
+                </dependency>
 
-				<!--L-->
-				<!--Logging-->
-				<dependency>
-					<groupId>org.projectlombok</groupId>
-					<artifactId>lombok</artifactId>
-					<version>${lombok.version}</version>
-					<scope>provided</scope>
-				</dependency>
+                <!--L-->
+                <!--Logging-->
+                <dependency>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok</artifactId>
+                    <version>${lombok.version}</version>
+                    <scope>provided</scope>
+                </dependency>
 
-				<!--S-->
-				<!--Selenium-->
-				<dependency>
-					<groupId>org.seleniumhq.selenium</groupId>
-					<artifactId>selenium-java</artifactId>
-					<version>${selenium.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.seleniumhq.selenium</groupId>
-					<artifactId>selenium-remote-driver</artifactId>
-					<version>${selenium.version}</version>
-				</dependency>
+                <!--S-->
+                <!--Selenium-->
+                <dependency>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-java</artifactId>
+                    <version>${selenium.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-remote-driver</artifactId>
+                    <version>${selenium.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                    <version>2.0.0-alpha0</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-core</artifactId>
+                    <version>${slf4j-simple.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j-impl</artifactId>
+                    <version>${slf4j-simple.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                    <version>1.8.0-beta4</version>
+                </dependency>
 
-				<!--T-->
-				<dependency>
-					<groupId>org.testng</groupId>
-					<artifactId>testng</artifactId>
-					<version>${testng.version}</version>
-					<scope>test</scope>
-				</dependency>
 
-				<!--W-->
-				<!--Automated drivers check and uploading (no binaries keeping within the project)-->
-				<dependency>
-					<groupId>io.github.bonigarcia</groupId>
-					<artifactId>webdrivermanager</artifactId>
-					<version>${webdrivermanager.version}</version>
-				</dependency>
-			</dependencies>
+                <!--T-->
+                <dependency>
+                    <groupId>org.testng</groupId>
+                    <artifactId>testng</artifactId>
+                    <version>${testng.version}</version>
+                    <scope>test</scope>
+                </dependency>
 
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>${maven.compiler.plugin.version}</version>
-						<configuration>
-							<!--Turns on Error Prone (testing at compilation)-->
-							<!--<compilerId>javac-with-errorprone</compilerId>
-							<forceJavacCompilerUse>true</forceJavacCompilerUse>-->
-							<source>${maven.compiler.plugin}</source>
-							<target>${maven.compiler.plugin}</target>
-							<showWarnings>true</showWarnings>
-						</configuration>
-						<!--<dependencies>
-							<dependency>
-								<groupId>org.codehaus.plexus</groupId>
-								<artifactId>plexus-compiler-javac-errorprone</artifactId>
-								<version>${error.prone.javac.version}</version>
-							</dependency>
-							&lt;!&ndash; override plexus-compiler-javac-errorprone's dependency on
-								 Error Prone with the latest version &ndash;&gt;
-							<dependency>
-								<groupId>com.google.errorprone</groupId>
-								<artifactId>error_prone_core</artifactId>
-								<version>${error.prone.core.version}</version>
-							</dependency>
-						</dependencies>-->
-					</plugin>
+                <!--W-->
+                <!--Automated drivers check and uploading (no binaries keeping within the project)-->
+                <dependency>
+                    <groupId>io.github.bonigarcia</groupId>
+                    <artifactId>webdrivermanager</artifactId>
+                    <version>${webdrivermanager.version}</version>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>${maven.compiler.plugin.version}</version>
+                        <configuration>
+                            <!--Turns on Error Prone (testing at compilation)-->
+                            <!--<compilerId>javac-with-errorprone</compilerId>
+                            <forceJavacCompilerUse>true</forceJavacCompilerUse>-->
+                            <source>${maven.compiler.plugin}</source>
+                            <target>${maven.compiler.plugin}</target>
+                            <showWarnings>true</showWarnings>
+                        </configuration>
+                        <!--<dependencies>
+                            <dependency>
+                                <groupId>org.codehaus.plexus</groupId>
+                                <artifactId>plexus-compiler-javac-errorprone</artifactId>
+                                <version>${error.prone.javac.version}</version>
+                            </dependency>
+                            &lt;!&ndash; override plexus-compiler-javac-errorprone's dependency on
+                                 Error Prone with the latest version &ndash;&gt;
+                            <dependency>
+                                <groupId>com.google.errorprone</groupId>
+                                <artifactId>error_prone_core</artifactId>
+                                <version>${error.prone.core.version}</version>
+                            </dependency>
+                        </dependencies>-->
+                    </plugin>
 
-					<!--Runs integration/system tests safely (no abortion) and parallels them-->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${maven.surefire.plugin}</version>
-						<configuration>
-							<!--<parallel>methods</parallel>-->
-							<!--Define number of threads: <mvn clean install -Dthreads=2>-->
-							<testFailureIgnore>false</testFailureIgnore>
-							<threadCount>${threads}</threadCount>
-							<forkCount>${forks}</forkCount>
-							<argLine>
-								-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-							</argLine>
-							<suiteXmlFiles>
-								<suiteXmlFile>${default.suiteXmlFile}</suiteXmlFile>
-							</suiteXmlFiles>
-							<systemPropertyVariables>
-								<screenshotDirectory>${project.build.directory}/screenshot</screenshotDirectory>
-								<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
-								<browser>${browser}</browser>
-								<desiredBrowserVersion>${browser.version}</desiredBrowserVersion>
-								<desiredPlatform>${platform}</desiredPlatform>
-								<remoteDriver>${remote}</remoteDriver>
-								<selenoidURL>${selenoidURL}</selenoidURL>
-							</systemPropertyVariables>
-							<includes>
-								<include>**/*WD.java</include>
-							</includes>
-						</configuration>
-						<dependencies>
-							<dependency>
-								<groupId>org.aspectj</groupId>
-								<artifactId>aspectjweaver</artifactId>
-								<version>1.9.1</version>
-							</dependency>
-						</dependencies>
-					</plugin>
-					<plugin>
-						<groupId>io.qameta.allure</groupId>
-						<artifactId>allure-maven</artifactId>
-						<version>2.10.0</version>
-						<configuration>
-							<properties>
-								<reportDirectory>${project.build.directory}/allure-report</reportDirectory>
-								<allure.issues.tracker.pattern>http://example.com/%s</allure.issues.tracker.pattern>
-							</properties>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+                    <!--Runs integration/system tests safely (no abortion) and parallels them-->
+                    <!--Runs integration/system tests safely (no abortion) and parallels them-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven.surefire.plugin}</version>
+                        <configuration>
+                            <!--<parallel>methods</parallel>-->
+                            <!--Define number of threads: <mvn clean install -Dthreads=2>-->
+                            <testFailureIgnore>false</testFailureIgnore>
+                            <threadCount>${threads}</threadCount>
+                            <forkCount>${forks}</forkCount>
+                            <argLine>
+                                -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                            </argLine>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>${default.suiteXmlFile}</suiteXmlFile>
+                            </suiteXmlFiles>
+                            <systemPropertyVariables>
+                                <screenshotDirectory>${project.build.directory}/screenshot</screenshotDirectory>
+                                <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                                <browser>${browser}</browser>
+                                <desiredBrowserVersion>${browser.version}</desiredBrowserVersion>
+                                <desiredPlatform>${platform}</desiredPlatform>
+                                <remoteDriver>${remote}</remoteDriver>
+                                <selenoidURL>${selenoidURL}</selenoidURL>
+                            </systemPropertyVariables>
+                            <includes>
+                                <include>**/*WD.java</include>
+                            </includes>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.aspectj</groupId>
+                                <artifactId>aspectjweaver</artifactId>
+                                <version>${aspectj.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                    <plugin>
+                        <groupId>io.qameta.allure</groupId>
+                        <artifactId>allure-maven</artifactId>
+                        <version>2.10.0</version>
+                        <configuration>
+                            <properties>
+                                <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
+                                <allure.issues.tracker.pattern>http://example.com/%s</allure.issues.tracker.pattern>
+                            </properties>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static com.masteringselenium.DriverFactory.getDriver;
+import static com.masteringselenium.driver.DriverFactory.getDriver;
 
 @Slf4j
 public class ScreenshotListener extends TestListenerAdapter {

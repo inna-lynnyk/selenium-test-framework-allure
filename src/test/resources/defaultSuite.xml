@@ -1,13 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Selenium test">
-    <listeners>
-        <listener class-name="com.masteringselenium.listeners.AllureListener" />
-    </listeners>
-
-    <test name="Test">
-        <classes>
-            <class name="com.masteringselenium.tests.BasicTestWD"/>
-        </classes>
-    </test>
+<suite name="Value Date plugin tests">
+	<test name="Cash Balance tests">
+		<classes>
+			<class name="com.masteringselenium.tests.BasicTestWD"/>
+		</classes>
+	</test>
 </suite>

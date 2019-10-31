@@ -1,14 +1,21 @@
 package com.masteringselenium.listeners;
 
+import static org.openqa.selenium.logging.LogType.BROWSER;
+
+import java.util.stream.Collectors;
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.LogType;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
-import com.masteringselenium.DriverFactory;
+import com.masteringselenium.driver.DriverFactory;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,17 +29,14 @@ public class AllureListener extends TestListenerAdapter {
 	//Text attachment for Allure
 	@Attachment(value = "Screenshot", type = "image/png")
 	private byte[] saveScreenshotPNG(WebDriver driver) {
+		log.info("Saving screenshot");
 		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 	}
 
-	@Attachment(value = "{message}", type = "text/plain")
-	private static String saveTextLog(String message) {
-		return message;
-	}
-
-	@Attachment(value = "{html}", type = "text/html")
-	public static String attachHtml(String html) {
-		return html;
+	@Attachment(value = "HTML", type = "text/html")
+	private static String attachHtml(WebDriver driver) {
+		log.info("Attaching HTML logs");
+		return driver.getPageSource();
 	}
 
 	@Override
@@ -64,10 +68,9 @@ public class AllureListener extends TestListenerAdapter {
 		if (driver != null) {
 			log.warn("Screenshot captured for test case: " + testClass + getTestMethodName(iTestResult));
 			saveScreenshotPNG(driver);
+			//Save log
+			attachHtml(driver);
 		}
-		//Save log
-		saveTextLog(getTestMethodName(iTestResult) + "failed and screenshot taken!");
-		attachHtml(getTestMethodName(iTestResult) + "atached html logs");
 	}
 
 	@Override

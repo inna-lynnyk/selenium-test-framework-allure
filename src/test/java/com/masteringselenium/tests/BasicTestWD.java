@@ -1,51 +1,32 @@
 package com.masteringselenium.tests;
 
-import static io.qameta.allure.SeverityLevel.BLOCKER;
-
-import com.masteringselenium.DriverFactory;
-import com.masteringselenium.page_objects.pages.IndexPage;
-import com.masteringselenium.page_objects.pages.LoginPage;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
-import io.qameta.allure.Description;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
+import com.masteringselenium.driver.DriverFactory;
 
 public class BasicTestWD extends DriverFactory {
 
-	private final String BASE_URL = CONFIGURATION.getBaseURL();
+	/*private final String baseURL = CONFIGURATION.getBaseURL();
 	private final String USER_ID = CONFIGURATION.getUserId();
 	private final String USER_PASS = CONFIGURATION.getUserPassword();
 	private LoginPage loginPage;
 	private IndexPage indexPage;
 
-	@BeforeTest
+	@BeforeClass
 	private void setUp() {
-		loginPage = new LoginPage(DriverFactory.getDriver(), BASE_URL);
+		loginPage = new LoginPage(DriverFactory.getDriver(), baseURL);
 	}
 
-	/*@Test
+	@Test
 	public void aUserLoginsWithValidCredentials() {
-		loginPage.open() // instead of driver.get(BASE_URL);
-				.enterEmail(USER_ID)
+		loginPage.open(); // instead of driver.get(baseURL);
+				loginPage.enterEmail(USER_ID)
 				.enterPassword(USER_PASS)
 				.clickSubmitButton();
 
 		indexPage = loginPage.getIndexPage();
-		indexPage.open(); //throws exception/
-	}*/
+		indexPage.open(); //throws exception
+	}
 
-	@Test(description = "Opening Login page")
-	@Severity(BLOCKER)
-	@Description("- Page description is displayed at the top,\n"
-			+ "- Verbatim 'Show balance for specific date' is displayed before Datepicker,\n"
-			+ "- Datepicker input and button are displayed,\n"
-			+ "- Show and Clear buttons are displayed and disabled,\n"
-			+ "- Table header and body are visible,\n"
-			+ "- Table header and body cells are not empty.")
-	@Story("LOG-5")
+	@Test
 	public void loginFormIsVisibleWhenLoginPageIsOpened() {
 		loginPage.open();
 	}
@@ -56,19 +37,11 @@ public class BasicTestWD extends DriverFactory {
 				.login("Test", USER_PASS);
 	}
 
-	@Test(description = "Opening Login page")
-	@Severity(BLOCKER)
-	@Description("- Page description is displayed at the top,\n"
-			+ "- Verbatim 'Show balance for specific date' is displayed before Datepicker,\n"
-			+ "- Datepicker input and button are displayed,\n"
-			+ "- Show and Clear buttons are displayed and disabled,\n"
-			+ "- Table header and body are visible,\n"
-			+ "- Table header and body cells are not empty.")
-	@Story("LOG-5")
+	@Test
 	public void userDirectoryIsNotOpenedIfLogedInWithInvalidPassword() {
 		loginPage.open()
 				.login(USER_ID, "12345");
-	}
+	}*/
 
 	/*private static final String baseURL = //"http://automationpractice.com";
 
