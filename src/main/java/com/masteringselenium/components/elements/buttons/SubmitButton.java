@@ -19,6 +19,7 @@ public class SubmitButton extends AbstractButton {
 
     @Override
     public SubmitButton verifyDisabled() {
-        throw new UnsupportedOperationException("This button does not support this action");
+        String className = this.getClass().getSimpleName();
+        throw new UnsupportedOperationException(className + " does not support this action");
     }
 }

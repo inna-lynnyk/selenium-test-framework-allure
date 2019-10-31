@@ -1,26 +1,15 @@
 package com.masteringselenium.components.pages;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.masteringselenium.components.sections.LoginFormSection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginPage extends AbstractPage {
 
     //Consider using live templates (pfb)
     private static final By TITLE_SELECTOR = By.cssSelector(".login-logo");
-
-    /**
-     * Might be used to return instance of this page
-     * (i.e. when fluently proceed through different
-     * pages during test scenario execution)
-     *
-     * @param driver - WebDriver instance
-     */
-    /*private LoginPage(WebDriver driver) {
-        super(driver);
-    }*/
 
     /**
      * Creates the page instance and sets URL
@@ -56,11 +45,4 @@ public class LoginPage extends AbstractPage {
         assertThat(actualResult).isEqualToIgnoringCase(expectedText);
         return this;
     }
-
-//	@FindBy(id = "email")
-//	private WebElement emailAddressField;
-
-//	public SignInPage() {
-//		PageFactory.initElements(DriverFactory.getDriver(), this);
-//	}
 }

@@ -1,9 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Value Date plugin tests">
-	<test name="Cash Balance tests">
+<suite name="Login Page">
+	<test name="Login tests">
 		<classes>
-			<class name="com.masteringselenium.tests.BasicTestWD"/>
+			<class name="com.masteringselenium.tests.LoginPageTestsWD"/>
 		</classes>
 	</test>
 </suite>
