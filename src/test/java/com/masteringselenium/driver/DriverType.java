@@ -9,6 +9,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.remote.CapabilityType;
@@ -17,95 +19,102 @@ import org.openqa.selenium.safari.SafariOptions;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public enum DriverType implements DriverSetup {
 
-	FIREFOX {
-		@Override
-		public MutableCapabilities getDesiredCapabilities() {
-			FirefoxOptions firefoxOptions = new FirefoxOptions();
-			firefoxOptions.setCapability("marionette", true);
-			return firefoxOptions;
-		}
+    FIREFOX {
+        @Override
+        public MutableCapabilities getDesiredCapabilities() {
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            LoggingPreferences logPrefs = new LoggingPreferences();
+            logPrefs.enable(LogType.BROWSER, Level.ALL);
+            firefoxOptions.setCapability("marionette", true);
+            firefoxOptions.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+            return firefoxOptions;
+        }
 
-		@Override
-		public WebDriver getWebDriverObject(MutableCapabilities capabilities) {
-			WebDriverManager.firefoxdriver().setup();
-			return new FirefoxDriver((FirefoxOptions) capabilities);
-		}
-	},
+        @Override
+        public WebDriver getWebDriverObject(MutableCapabilities capabilities) {
+            WebDriverManager.firefoxdriver().setup();
+            return new FirefoxDriver((FirefoxOptions) capabilities);
+        }
+    },
 
-	CHROME {
-		@Override
-		public MutableCapabilities getDesiredCapabilities() {
-			ChromeOptions chromeOptions = new ChromeOptions();
-			chromeOptions.setCapability("chrome.switches",
-					Arrays.asList("--no-default-browser-check",
-							"--disable-extensions",
-							"--disable-notifications",
-							"--disable-translate",
-							"--disable-infobars",
-							"--disable-web-security",
-							"--disable-save-password-bubble"));
+    CHROME {
+        @Override
+        public MutableCapabilities getDesiredCapabilities() {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.setCapability("chrome.switches",
+                    Arrays.asList("--no-default-browser-check",
+                            "--disable-extensions",
+                            "--disable-notifications",
+                            "--disable-translate",
+                            "--disable-infobars",
+                            "--disable-web-security",
+                            "--disable-save-password-bubble"));
 
-			HashMap<String, String> chromePreferences = new HashMap<>();
-			chromePreferences.put("profile.password_manager_enabled", "false");
+            HashMap<String, String> chromePreferences = new HashMap<>();
+            chromePreferences.put("profile.password_manager_enabled", "false");
 
-			chromeOptions.setCapability("chrome.prefs", chromePreferences);
+            chromeOptions.setCapability("chrome.prefs", chromePreferences);
 
-			return chromeOptions;
-		}
+            LoggingPreferences logPrefs = new LoggingPreferences();
+            logPrefs.enable(LogType.BROWSER, Level.ALL);
+            chromeOptions.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+            return chromeOptions;
+        }
 
-		@Override
-		public WebDriver getWebDriverObject(MutableCapabilities capabilities) {
-			WebDriverManager.chromedriver().setup();
-			return new ChromeDriver((ChromeOptions) capabilities);
-		}
-	},
+        @Override
+        public WebDriver getWebDriverObject(MutableCapabilities capabilities) {
+            WebDriverManager.chromedriver().setup();
+            return new ChromeDriver((ChromeOptions) capabilities);
+        }
+    },
 
-	IE {
-		@Override
-		public MutableCapabilities getDesiredCapabilities() {
-			MutableCapabilities capabilities = new InternetExplorerOptions();
-			capabilities.setCapability(CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION, true);
-			capabilities.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING, true);
-			capabilities.setCapability("requireWindowFocus", true);
+    IE {
+        @Override
+        public MutableCapabilities getDesiredCapabilities() {
+            MutableCapabilities capabilities = new InternetExplorerOptions();
+            capabilities.setCapability(CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION, true);
+            capabilities.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING, true);
+            capabilities.setCapability("requireWindowFocus", true);
 
-			return capabilities;
-		}
+            return capabilities;
+        }
 
-		@Override
-		public WebDriver getWebDriverObject(MutableCapabilities capabilities) {
-			WebDriverManager.iedriver().setup();
-			return new InternetExplorerDriver((InternetExplorerOptions) capabilities);
-		}
-	},
+        @Override
+        public WebDriver getWebDriverObject(MutableCapabilities capabilities) {
+            WebDriverManager.iedriver().setup();
+            return new InternetExplorerDriver((InternetExplorerOptions) capabilities);
+        }
+    },
 
-	SAFARI {
-		@Override
-		public MutableCapabilities getDesiredCapabilities() {
-			MutableCapabilities capabilities = new SafariOptions();
-			capabilities.setCapability("safari.cleanSession", true);
+    SAFARI {
+        @Override
+        public MutableCapabilities getDesiredCapabilities() {
+            MutableCapabilities capabilities = new SafariOptions();
+            capabilities.setCapability("safari.cleanSession", true);
 
-			return capabilities;
-		}
+            return capabilities;
+        }
 
-		@Override
-		public WebDriver getWebDriverObject(MutableCapabilities capabilities) {
-			return new SafariDriver((SafariOptions) capabilities);
-		}
-	},
+        @Override
+        public WebDriver getWebDriverObject(MutableCapabilities capabilities) {
+            return new SafariDriver((SafariOptions) capabilities);
+        }
+    },
 
-	OPERA {
-		@Override
-		public MutableCapabilities getDesiredCapabilities() {
-			return new OperaOptions();
-		}
+    OPERA {
+        @Override
+        public MutableCapabilities getDesiredCapabilities() {
+            return new OperaOptions();
+        }
 
-		@Override
-		public WebDriver getWebDriverObject(MutableCapabilities capabilities) {
-			WebDriverManager.operadriver().setup();
-			return new OperaDriver((OperaOptions) capabilities);
-		}
-	}
+        @Override
+        public WebDriver getWebDriverObject(MutableCapabilities capabilities) {
+            WebDriverManager.operadriver().setup();
+            return new OperaDriver((OperaOptions) capabilities);
+        }
+    }
 }

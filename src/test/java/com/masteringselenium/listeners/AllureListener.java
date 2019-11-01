@@ -1,6 +1,7 @@
 package com.masteringselenium.listeners;
 
 import com.masteringselenium.driver.DriverFactory;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.OutputType;
@@ -10,6 +11,8 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
+import java.io.ByteArrayInputStream;
+
 @Slf4j
 public class AllureListener extends TestListenerAdapter {
 
@@ -17,11 +20,9 @@ public class AllureListener extends TestListenerAdapter {
         return iTestResult.getMethod().getConstructorOrMethod().getName();
     }
 
-    //Text attachment for Allure
-    @Attachment(value = "Page screenshot", type = "image/png")
-    private byte[] saveScreenshotPNG(WebDriver driver) {
+    private ByteArrayInputStream saveScreenshot(WebDriver driver) {
         log.info("Saving screenshot");
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        return new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
     }
 
     @Attachment(value = "HTML", type = "text/html")
@@ -57,18 +58,14 @@ public class AllureListener extends TestListenerAdapter {
     public void onTestFailure(ITestResult iTestResult) {
         final String testClass = iTestResult.getInstanceName();
         final String testMethod = getTestMethodName(iTestResult);
-        log.warn("Test failed: {}.{}", testClass, testMethod);
+        log.error("Test failed: {}.{}", testClass, testMethod);
         final WebDriver driver = DriverFactory.getDriver();
         if (driver != null) {
             log.warn("Screenshot captured for test case: {}.{}", testClass, testMethod);
-            saveScreenshotPNG(driver);
-            String screenshotDirectory = System.getProperty("allure.results.directory");
-            String screenshotAbsolutePath = screenshotDirectory + "\n"
-                    + System.currentTimeMillis() + "_"
-                    + iTestResult.getName() + ".png";
-            log.warn("Screenshot saved as: {}", screenshotAbsolutePath);
-            //Save log
-            attachHtml(driver);
+            Allure.addAttachment("Page screenshot", saveScreenshot(driver));
+
+            //Save html
+            Allure.addAttachment("HTML source", "text/html", driver.getPageSource(), ".html");
         }
     }
 

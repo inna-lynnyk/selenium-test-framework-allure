@@ -2,7 +2,6 @@ package com.masteringselenium.driver;
 
 import com.masteringselenium.domain.FrameworkProperties;
 import com.masteringselenium.listeners.AllureListener;
-import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
@@ -47,7 +46,6 @@ public class DriverFactory {
         });
     }
 
-    @Step("Get driver instance")
     public static WebDriver getDriver() {
         log.info("Requesting driver");
         return driverThread.get().getDriver();

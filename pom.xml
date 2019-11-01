@@ -148,43 +148,13 @@
                     <target>${maven.compiler.plugin}</target>
                 </configuration>
             </plugin>
-
-            <!--Runs integration/system tests safely (no abortion) and parallels them-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin}</version>
                 <configuration>
-                    <testFailureIgnore>false</testFailureIgnore>
-                    <!--<parallel>methods</parallel>-->
-                    <!--Define number of threads: <mvn clean install -Dthreads=2>-->
-                    <threadCount>${threads}</threadCount>
-                    <forkCount>${forks}</forkCount>
-                    <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    </argLine>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>${default.suiteXmlFile}</suiteXmlFile>
-                    </suiteXmlFiles>
-                    <systemPropertyVariables>
-                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
-                        <browser>${browser}</browser>
-                        <desiredBrowserVersion>${browser.version}</desiredBrowserVersion>
-                        <desiredPlatform>${platform}</desiredPlatform>
-                        <remoteDriver>${remote}</remoteDriver>
-                        <remoteDriverURL>${remoteDriverURL}</remoteDriverURL>
-                    </systemPropertyVariables>
-                    <!--<includes>
-                        <include>**/*WD.java</include>
-                    </includes>-->
+                    <skip>true</skip>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>io.qameta.allure</groupId>
@@ -200,15 +170,58 @@
         </plugins>
     </build>
 
-    <!--<profiles>
-        &lt;!&ndash;Profiles are to run a <profile> in isolation with -P key: i.e. <mvn clean install -Pselenium>&ndash;&gt;
+    <profiles>
+        <!--Profiles are to run a <profile> in isolation with -P key: i.e. <mvn clean install -Pselenium>-->
         <profile>
             <id>selenium</id>
             <activation>
-                &lt;!&ndash;If 'true' the profile remains active if no profiles are specified in the command line&ndash;&gt;
-                <activeByDefault>true</activeByDefault>
+                <!--If 'true' the profile remains active if no profiles are specified in the command line-->
+                <activeByDefault>false</activeByDefault>
             </activation>
-
+            <build>
+                <plugins>
+                    <!--Runs integration/system tests safely (no abortion) and parallels them-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                            <testFailureIgnore>false</testFailureIgnore>
+                            <!--Define number of threads: <mvn clean install -Dthreads=2>-->
+                            <threadCount>${threads}</threadCount>
+                            <!--<parallel>methods</parallel>-->
+                            <!--!!!When forkCount uncommented, steps are not displayed in Allure-->
+                            <!--To get Allure run from CLI, otherwise AspectJ configuration from pom.xml is not applied-->
+                            <!--<forkCount>${forks}</forkCount>-->
+                            <argLine>
+                                -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                            </argLine>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>${default.suiteXmlFile}</suiteXmlFile>
+                            </suiteXmlFiles>
+                            <systemPropertyVariables>
+                                <allure.results.directory>${project.build.directory}/allure-results
+                                </allure.results.directory>
+                                <browser>${browser}</browser>
+                                <desiredBrowserVersion>${browser.version}</desiredBrowserVersion>
+                                <desiredPlatform>${platform}</desiredPlatform>
+                                <remoteDriver>${remote}</remoteDriver>
+                                <remoteDriverURL>${remoteDriverURL}</remoteDriverURL>
+                            </systemPropertyVariables>
+                            <!--<includes>
+                                <include>**/*WD.java</include>
+                            </includes>-->
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.aspectj</groupId>
+                                <artifactId>aspectjweaver</artifactId>
+                                <version>${aspectj.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
-    </profiles>-->
+    </profiles>
 </project>

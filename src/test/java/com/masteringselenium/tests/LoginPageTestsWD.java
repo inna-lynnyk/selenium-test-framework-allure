@@ -2,7 +2,6 @@ package com.masteringselenium.tests;
 
 import com.masteringselenium.components.pages.LoginPage;
 import com.masteringselenium.driver.DriverFactory;
-
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -14,7 +13,7 @@ import static io.qameta.allure.SeverityLevel.BLOCKER;
 @Feature("Login")
 public class LoginPageTestsWD extends DriverFactory {
 
-    @Test(description = "Opening Login page")
+    @Test(description = "Login page main elements are displayed")
     @Severity(BLOCKER)
     @Description("- Page description is displayed at the top,\n"
             + "- Verbatim 'Show balance for specific date' is displayed before Datepicker,\n"
