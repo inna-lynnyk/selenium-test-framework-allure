@@ -387,5 +387,24 @@ public class InitialDemo extends BaseTest {
             Thread.currentThread().interrupt();
         }
     }
+
+    @Test
+    public void tribu() {
+        driver.get("https://app.tribu.online/auth/signin");
+        driver.findElement(By.xpath("//input[@placeholder='דוא\"ל']")).sendKeys("qa@we-tribu.com");
+        driver.findElement(By.xpath("//input[@placeholder='סיסמה']")).sendKeys("QA123123");
+        driver.findElement(By.xpath("//button[@class='btn btn-block btn-danger mt-lg ng-binding']")).click();
+
+        WebDriverWait explicitWait = new WebDriverWait(driver, 30);
+
+        String result = driver.findElement(By.xpath("//span[@class='pull-left ng-binding']")).getText();
+        System.out.println(" You are logged in as " + result);
+        boolean actual = result.contains("admin tribu (טריביו אדמין)");
+        assertTrue(actual);
+
+        driver.findElement(By.cssSelector("body.layout-fixed.ng-scope.tribu-admin.in-app:nth-child(2) div.app-container.ng-scope.ng-fadeInLeft2:nth-child(3) header.bg-danger.ng-scope:nth-child(1) nav.navbar.topnavbar.ng-scope div.nav-wrapper.navbar-collapse.collapse ul.nav.navbar-nav.navbar-right li.hidden-xs.dropdown:nth-child(2) a.dropdown-toggle > img:nth-child(1)")).click();
+        driver.findElement(By.xpath("//li[@class='hidden-xs dropdown open']//li[1]//a[1]")).click();
+    }
+
 }
 
